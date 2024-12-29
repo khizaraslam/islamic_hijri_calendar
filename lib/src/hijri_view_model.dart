@@ -7,6 +7,21 @@ class HijriViewModel {
   ///adjustment value for hijri calendar
   int adjustmentValue = 0;
 
+  /// islamic event
+  final List<Map<String, dynamic>> islamicEvents = [
+    {'name': 'Eid-ul-Fitr', 'hijriMonth': 10, 'hijriDay': 1},
+    {'name': 'Hajj Starting', 'hijriMonth': 12, 'hijriDay': 8},
+    {'name': 'Arafa Day', 'hijriMonth': 12, 'hijriDay': 9},
+    {'name': 'Eid-ul-Adha', 'hijriMonth': 12, 'hijriDay': 10},
+    {'name': 'Aashoraa Day', 'hijriMonth': 1, 'hijriDay': 10},
+    {'name': 'Ramadan Start', 'hijriMonth': 9, 'hijriDay': 1},
+    {'name': 'Lailat-ul-Qadr Start', 'hijriMonth': 9, 'hijriDay': 20},
+    {'name': 'Night of Mid Shaban', 'hijriMonth': 8, 'hijriDay': 15},
+    {'name': 'Badr Battle', 'hijriMonth': 9, 'hijriDay': 17},
+    {'name': 'Israa and Miraj', 'hijriMonth': 7, 'hijriDay': 27},
+  ];
+
+
   ///each day header value
   var headerOfDay = [
     "Mon",
@@ -100,29 +115,12 @@ class HijriViewModel {
                           selectedDate.day == day.day
                       ? 2
                       : 0),
+         shape: BoxShape.circle
         ),
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              day.day.toString(),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: day.year == todayDate.year &&
-                      day.month == todayDate.month &&
-                      day.day == todayDate.day
-                  ? style?.copyWith(
-                          fontSize: fontSize, color: highlightTextColor) ??
-                      TextStyle(fontSize: fontSize, color: highlightTextColor)
-                  : style?.copyWith(
-                      fontSize: fontSize,
-                      color: !isCurrentMonthDays
-                          ? (isDisablePreviousNextMonthDates
-                              ? defaultTextColor.withOpacity(.1)
-                              : defaultTextColor)
-                          : defaultTextColor),
-            ),
             !isHijriView
                 ? const SizedBox()
                 : Padding(
@@ -152,6 +150,25 @@ class HijriViewModel {
                               ),
                     ),
                   ),
+            const SizedBox(width: 5,),
+            Text(
+              day.day.toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: day.year == todayDate.year &&
+                  day.month == todayDate.month &&
+                  day.day == todayDate.day
+                  ? style?.copyWith(
+                  fontSize: fontSize, color: highlightTextColor) ??
+                  TextStyle(fontSize: fontSize, color: highlightTextColor)
+                  : style?.copyWith(
+                  fontSize: fontSize,
+                  color: !isCurrentMonthDays
+                      ? (isDisablePreviousNextMonthDates
+                      ? defaultTextColor.withOpacity(.1)
+                      : defaultTextColor)
+                      : defaultTextColor),
+            ),
           ],
         ),
       ),
@@ -159,16 +176,16 @@ class HijriViewModel {
   }
 
   ///get hijri month year values by passing current displayed month & year
-  String getHijriMonthYear() {
+  String getHijriMonthYear(String ? local, {DateTime ? timeNow}) {
     int lastDayOfMonth = DateFunctions.getLastDayOfCurrentMonth(
-            currentMonth: currentDisplayMonthYear)
-        .day;
+            currentMonth:timeNow?? currentDisplayMonthYear).day;
+    HijriCalendarConfig.setLocal(local??"ar");
     String firstDateMonthName = HijriCalendarConfig.fromDate(DateTime(
-            currentDisplayMonthYear.year, currentDisplayMonthYear.month, 1))
+        timeNow?.year?? currentDisplayMonthYear.year, timeNow?.month?? currentDisplayMonthYear.month, 1))
         .getLongMonthName();
     String lastDateMonthName = HijriCalendarConfig.fromDate(DateTime(
-            currentDisplayMonthYear.year,
-            currentDisplayMonthYear.month,
+        timeNow?.year??  currentDisplayMonthYear.year,
+        timeNow?.month??    currentDisplayMonthYear.month,
             lastDayOfMonth))
         .getLongMonthName();
     return firstDateMonthName == lastDateMonthName
@@ -212,4 +229,64 @@ class HijriViewModel {
     }
     currentDisplayMonthYear = DateTime(year, month, day);
   }
+
+  /// get All Islamic event
+  List<Map<String, dynamic>> getIslamicEventsForYear(int hijriYear, {int adjustmentValue = 0}) {
+    List<Map<String, dynamic>> eventsForYear = [];
+
+    for (var event in islamicEvents) {
+      // Create Hijri date for the event
+      var hijriDate = HijriCalendarConfig()
+        ..hYear = hijriYear
+        ..hMonth = event['hijriMonth']
+        ..hDay = event['hijriDay'];
+
+      // Convert Hijri date to Gregorian
+      DateTime gregorianDate = hijriDate.hijriToGregorian(
+        hijriDate.hYear,
+        hijriDate.hMonth,
+        hijriDate.hDay,
+      );
+
+      // Check if the event has already passed
+      if (gregorianDate.isBefore(DateTime.now())) {
+        // Move the event to the next Hijri year
+        hijriDate.hYear = hijriYear + 1;
+        gregorianDate = hijriDate.hijriToGregorian(
+          hijriDate.hYear,
+          hijriDate.hMonth,
+          hijriDate.hDay,
+        );
+      }
+
+      // Apply adjustment using the adjustmentValue
+      gregorianDate = adjustmentValue.isNegative
+          ? gregorianDate.subtract(Duration(days: adjustmentValue.abs()))
+          : gregorianDate.add(Duration(days: adjustmentValue));
+
+      // Convert the adjusted Gregorian date back to Hijri
+      var adjustedHijriDate = HijriCalendarConfig.fromDate(gregorianDate);
+
+      // Add the event with adjusted details
+      eventsForYear.add({
+        'name': event['name'],
+        'hijriDate':
+        '${DateFunctions.convertEnglishToHijriNumber( adjustedHijriDate.hDay)} ${adjustedHijriDate.longMonthName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)}',
+        'gregorianDate': gregorianDate.toIso8601String(),
+        'daysLeft': gregorianDate.difference(DateTime.now()).inDays,
+      });
+    }
+
+    // Sort events by Gregorian date
+    eventsForYear.sort((a, b) {
+      DateTime dateA = DateTime.parse(a['gregorianDate']);
+      DateTime dateB = DateTime.parse(b['gregorianDate']);
+      return dateA.compareTo(dateB);
+    });
+
+    return eventsForYear;
+  }
+
+
+
 }
