@@ -46,7 +46,7 @@ class IslamicHijriCalendar extends StatefulWidget {
     super.key,
     this.isHijriView = true,
     this.highlightBorder = Colors.blue,
-    this.defaultBorder = const Color(0xfff2f2f2),
+    this.defaultBorder =  Colors.transparent,
     this.highlightTextColor = Colors.white,
     this.defaultTextColor = Colors.black,
     this.defaultBackColor = Colors.white,
@@ -207,39 +207,28 @@ class _HijriCalendarWidgetsState extends State<IslamicHijriCalendar> {
       double parentHeight = constraints.maxHeight;
 
       ///minimum height of particular day box
-      double minRowHeight = 70;
+      double minRowHeight = 45;
       double fontSize = 16;
 
       if (parentWidth > 600) {
         // Large screen (e.g., tablets), use larger font size
-        fontSize = 18;
+        fontSize = 15;
       } else if (parentWidth > 400) {
         // Medium screen (e.g., larger phones), use medium font size
-        fontSize = 16;
+        fontSize = 13;
       } else {
         // Smaller screen (e.g., small phones), use smaller font size
-        fontSize = 16;
+        fontSize = 13;
       }
 
       return Column(
         children: [
+
           // previous month button, month name & year, next month button
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ///navigate to previous month button
-              GestureDetector(
-                onTap: () => funcGetMonth(isPrevious: true),
-                child: Container(
-                  width: parentWidth / 7,
-                  padding: const EdgeInsets.only(top: 5, bottom: 5),
-                  alignment: Alignment.center,
-                  child: Icon(Icons.arrow_back_ios_new_rounded,
-                      size: fontSize, color: widget.defaultTextColor),
-                ),
-              ),
-
               ///rest of the space set english month name & year
               Expanded(
                 child: Padding(
@@ -253,17 +242,17 @@ class _HijriCalendarWidgetsState extends State<IslamicHijriCalendar> {
                             data: ThemeData(
                               useMaterial3: false,
                               colorScheme: Theme.of(context).brightness ==
-                                      Brightness.dark
+                                  Brightness.dark
                                   ? ColorScheme.dark(
-                                      primary: widget.highlightBorder,
-                                      onPrimary: widget.highlightTextColor,
-                                      onSurface: widget.defaultTextColor,
-                                    )
+                                primary: widget.highlightBorder,
+                                onPrimary: widget.highlightTextColor,
+                                onSurface: widget.defaultTextColor,
+                              )
                                   : ColorScheme.light(
-                                      primary: widget.highlightBorder,
-                                      onPrimary: widget.highlightTextColor,
-                                      onSurface: widget.defaultTextColor,
-                                    ),
+                                primary: widget.highlightBorder,
+                                onPrimary: widget.highlightTextColor,
+                                onSurface: widget.defaultTextColor,
+                              ),
                             ),
                             child: DatePickerDialog(
                               initialDate: viewmodel.currentDisplayMonthYear,
@@ -279,21 +268,50 @@ class _HijriCalendarWidgetsState extends State<IslamicHijriCalendar> {
                           viewmodel.selectedDate = pickedDate;
                           viewmodel.currentDisplayMonthYear = pickedDate;
                         });
+                        widget.getSelectedEnglishDate!(pickedDate);
                       }
                     },
-                    child: Center(
-                      child: Text(
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
                         DateFormat('MMM yyyy')
-                            .format(viewmodel.currentDisplayMonthYear),
-                        style: textStyle.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: fontSize,
-                            color: widget.defaultTextColor),
-                      ),
+                              .format(viewmodel.currentDisplayMonthYear),
+                          style: textStyle.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: fontSize,
+                              color: widget.defaultTextColor),
+                        ),
+                        ///show hijri calendar current month name & year
+                        !widget.isHijriView!
+                            ? const SizedBox():  Text(
+                          "${viewmodel.getHijriMonthYear("ar")} ${HijriCalendarConfig.fromDate(viewmodel.currentDisplayMonthYear).hYear}",
+                          textAlign: TextAlign.center,
+                          style: textStyle.copyWith(
+
+                              fontWeight: FontWeight.w700,
+
+                              fontSize: fontSize-2.5, color: widget.defaultTextColor),
+                        )
+                      ],
                     ),
                   ),
                 ),
               ),
+              ///navigate to previous month button
+              GestureDetector(
+                onTap: () => funcGetMonth(isPrevious: true),
+                child: Container(
+                  width: parentWidth / 7,
+                  padding: const EdgeInsets.only(top: 5, bottom: 5),
+                  alignment: Alignment.center,
+                  child: Icon(Icons.arrow_back_ios_new_rounded,
+                      size: fontSize, color: widget.defaultTextColor),
+                ),
+              ),
+
+
 
               ///navigate to next month button
               GestureDetector(
@@ -309,41 +327,20 @@ class _HijriCalendarWidgetsState extends State<IslamicHijriCalendar> {
             ],
           ),
 
-          ///show hijri calendar current month name & year
-          !widget.isHijriView!
-              ? const SizedBox()
-              : Container(
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: widget.highlightBorder,
-                  ),
-                  child: Text(
-                    "${viewmodel.getHijriMonthYear()} - ${HijriCalendarConfig.fromDate(viewmodel.currentDisplayMonthYear).hYear}",
-                    textAlign: TextAlign.center,
-                    style: textStyle.copyWith(
-                        fontSize: fontSize, color: widget.highlightTextColor),
-                  ),
-                ),
-
           ///show week name Mon to Sun in a row
-          Container(
-            color: widget.defaultBorder,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
-              child: Row(
-                children: List.generate(viewmodel.headerOfDay.length, (index) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(viewmodel.headerOfDay[index],
-                          style: textStyle.copyWith(
-                              fontSize: fontSize - 2,
-                              color: widget.defaultTextColor)),
-                    ),
-                  );
-                }),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Row(
+              children: List.generate(viewmodel.headerOfDay.length, (index) {
+                return Expanded(
+                  child: Center(
+                    child: Text(viewmodel.headerOfDay[index],
+                        style: textStyle.copyWith(
+                            fontSize: fontSize - 2,
+                            color: widget.defaultTextColor)),
+                  ),
+                );
+              }),
             ),
           ),
 
@@ -358,9 +355,11 @@ class _HijriCalendarWidgetsState extends State<IslamicHijriCalendar> {
                     double screenHeight = constraints.maxHeight;
                     double calculatedRowHeight =
                         screenHeight / (days.length / 7);
-                    double rowHeight = calculatedRowHeight < minRowHeight
-                        ? minRowHeight
-                        : calculatedRowHeight;
+                    // double rowHeight = calculatedRowHeight < minRowHeight
+                    //     ? minRowHeight
+                    //     : calculatedRowHeight;
+                    double rowHeight =45;
+                    print(rowHeight);
 
                     return funcCalendarDaysView(
                         textStyle: textStyle,
