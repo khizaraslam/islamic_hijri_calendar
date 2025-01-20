@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islamic_hijri_calendar/islamic_hijri_calendar.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -38,10 +39,10 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     setState(() {
-      viewmodel.adjustmentValue = 0;
+      viewmodel.adjustmentValue = 6;
     });
+
     events  = viewmodel.getIslamicEventsForYear(HijriCalendarConfig.fromDate(viewmodel.selectedDate).hYear,adjustmentValue:viewmodel.adjustmentValue );
 
     // Print events
@@ -155,7 +156,8 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
                     );
                   },
                 ),
-              )
+              ),
+
             ],
           ),
         ),
