@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:islamic_hijri_calendar/islamic_hijri_calendar.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-
-void main() {
+Future<void> main() async {
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
 
