@@ -43,7 +43,7 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
       viewmodel.adjustmentValue = 6;
     });
 
-    // events  = viewmodel.getIslamicEventsForYear(HijriCalendarConfig.fromDate(viewmodel.selectedDate).hYear,adjustmentValue:viewmodel.adjustmentValue );
+    events  = viewmodel.getIslamicEventsForYear(HijriCalendarConfig.fromDate(viewmodel.selectedDate).hYear,adjustmentValue:viewmodel.adjustmentValue );
     //
     // // Print events
 
@@ -152,7 +152,7 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
                       onNotificationTap: () {
                         // Notification logic
                         print('${event['name']} notification clicked');
-                      },
+                      }, arabicName:event['arabic_name'],
                     );
                   },
                 ),
@@ -173,6 +173,7 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
 
 class IslamicEventTile extends StatelessWidget {
   final String name; // Event name
+  final String arabicName; // Event name
   final String hijriDate; // Hijri date
   final String gregorianDate; // Gregorian date
   final int daysLeft; // Days left for the event
@@ -185,7 +186,7 @@ class IslamicEventTile extends StatelessWidget {
     required this.gregorianDate,
     required this.daysLeft,
     required this.isHighlighted,
-    required this.onNotificationTap,
+    required this.onNotificationTap, required this.arabicName,
   });
 
   @override
@@ -226,13 +227,16 @@ class IslamicEventTile extends StatelessWidget {
                   color: Colors.green[700],
                 ),
               ),
-              InkWell(
-                onTap: onNotificationTap,
-                child: Icon(
-                  Icons.notifications,
-                  color: Colors.green.shade700,
+              Text(
+                arabicName,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[700],
                 ),
               ),
+
+
             ],
           ),
           Row(
