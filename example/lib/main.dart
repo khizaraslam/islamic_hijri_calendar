@@ -43,9 +43,9 @@ class _HijriCalendarExampleState extends State<HijriCalendarExample> {
       viewmodel.adjustmentValue = 6;
     });
 
-    events  = viewmodel.getIslamicEventsForYear(HijriCalendarConfig.fromDate(viewmodel.selectedDate).hYear,adjustmentValue:viewmodel.adjustmentValue );
-
-    // Print events
+    // events  = viewmodel.getIslamicEventsForYear(HijriCalendarConfig.fromDate(viewmodel.selectedDate).hYear,adjustmentValue:viewmodel.adjustmentValue );
+    //
+    // // Print events
 
   }
   @override
@@ -244,6 +244,7 @@ class IslamicEventTile extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 14.0,
                   color: Colors.black87,
+                  fontFamily: 'Noor',
                   fontWeight: FontWeight.w500,
                 ),
               ),

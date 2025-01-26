@@ -9,16 +9,17 @@ class HijriViewModel {
 
   /// islamic event
   final List<Map<String, dynamic>> islamicEvents = [
-    {'name': 'Eid-ul-Fitr', 'hijriMonth': 10, 'hijriDay': 1},
-    {'name': 'Hajj Starting', 'hijriMonth': 12, 'hijriDay': 8},
-    {'name': 'Arafa Day', 'hijriMonth': 12, 'hijriDay': 9},
-    {'name': 'Eid-ul-Adha', 'hijriMonth': 12, 'hijriDay': 10},
-    {'name': 'Aashoraa Day', 'hijriMonth': 1, 'hijriDay': 10},
-    {'name': 'Ramadan Start', 'hijriMonth': 9, 'hijriDay': 1},
-    {'name': 'Lailat-ul-Qadr Start', 'hijriMonth': 9, 'hijriDay': 20},
-    {'name': 'Night of Mid Shaban', 'hijriMonth': 8, 'hijriDay': 15},
-    {'name': 'Badr Battle', 'hijriMonth': 9, 'hijriDay': 17},
-    {'name': 'Israa and Miraj', 'hijriMonth': 7, 'hijriDay': 27},
+    {'name': 'Miladu Annabiyy',"arabic_name":"ميلاد النبي صلى الله عليه وسلم", 'hijriMonth': 3, 'hijriDay': 12},
+    {'name': 'Eid-ul-Fitr',"arabic_name":"عيد الفطر", 'hijriMonth': 10, 'hijriDay': 1},
+    {'name': 'Hajj Starting', 'hijriMonth': 12, 'hijriDay': 8,"arabic_name":"ليلة التروية"},
+    {'name': 'Arafa Day', 'hijriMonth': 12, 'hijriDay': 9,"arabic_name":"يوم عرفة"},
+    {'name': 'Eid-ul-Adha', 'hijriMonth': 12, 'hijriDay': 10,"arabic_name":"عيد الأضحى"},
+    {'name': 'Aashoraa Day', 'hijriMonth': 1, 'hijriDay': 10,"arabic_name":"يوم عاشوراء"},
+    {'name': 'Ramadan Start', 'hijriMonth': 9, 'hijriDay': 1,"arabic_name":"هلال رمضان"},
+    {'name': 'Lailat-ul-Qadr Start', 'hijriMonth': 9, 'hijriDay': 20,"arabic_name":"ليلة القدر"},
+    {'name': 'Night of Mid Shaban', 'hijriMonth': 8, 'hijriDay': 15,"arabic_name":"ليلة النصف من شعبان"},
+    {'name': 'Badr Battle', 'hijriMonth': 9, 'hijriDay': 17,"arabic_name":"معركة بدر"},
+    {'name': 'Israa and Miraj', 'hijriMonth': 7, 'hijriDay': 27,"arabic_name":"الإسراء والمعراج"},
   ];
 
 
