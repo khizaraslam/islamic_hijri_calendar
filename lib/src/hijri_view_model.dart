@@ -268,7 +268,7 @@ class HijriViewModel {
           : gregorianDate.add(Duration(days: adjustmentValue));
 
       // Convert the adjusted Gregorian date back to Hijri
-      var adjustedHijriDate = HijriCalendarConfig.fromDate(gregorianDate);
+      var adjustedHijriDate = HijriCalendarConfig.fromDate(gregorianDate.toUtc());
 
       String dayName = DateFormat('EEEE',"ar").format(gregorianDate); // Use 'en' for English
 
