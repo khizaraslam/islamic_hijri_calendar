@@ -269,6 +269,7 @@ class HijriViewModel {
 
       // Convert the adjusted Gregorian date back to Hijri
       var adjustedHijriDate = HijriCalendarConfig.fromDate(gregorianDate);
+
       String dayName = DateFormat('EEEE',"ar").format(gregorianDate); // Use 'en' for English
 
 
@@ -276,7 +277,7 @@ class HijriViewModel {
       eventsForYear.add({
         'name': event['name'],
         'hijriDate':
-        '$dayName, ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hDay)} ${adjustedHijriDate.longMonthName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)}',
+        '${adjustedHijriDate.dayWeName}, ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hDay)} ${adjustedHijriDate.longMonthName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)}',
         'gregorianDate': gregorianDate.toIso8601String(),
         'daysLeft': gregorianDate.difference(DateTime.now()).inDays,
         'arabic_name':event['arabic_name']
