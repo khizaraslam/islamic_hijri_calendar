@@ -9,8 +9,8 @@ class HijriViewModel {
 
   /// islamic event
   final List<Map<String, dynamic>> islamicEvents = [
-    {'name': 'Miladu Annabiyy',"arabic_name":"ميلاد النبي صلى الله عليه وسلم", 'hijriMonth': 3, 'hijriDay': 12},
-    {'name': 'Eid-ul-Fitr',"arabic_name":"عيد الفطر", 'hijriMonth': 10, 'hijriDay': 1},
+    {'name': 'Miladu Annabiyy','hijriMonth': 3, 'hijriDay': 12,"arabic_name":"ميلاد النبي صلى الله عليه وسلم" },
+    {'name': 'Eid-ul-Fitr', 'hijriMonth': 10, 'hijriDay': 1,"arabic_name":"عيد الفطر"},
     {'name': 'Hajj Starting', 'hijriMonth': 12, 'hijriDay': 8,"arabic_name":"ليلة التروية"},
     {'name': 'Arafa Day', 'hijriMonth': 12, 'hijriDay': 9,"arabic_name":"يوم عرفة"},
     {'name': 'Eid-ul-Adha', 'hijriMonth': 12, 'hijriDay': 10,"arabic_name":"عيد الأضحى"},
@@ -275,6 +275,7 @@ class HijriViewModel {
         '${DateFunctions.convertEnglishToHijriNumber( adjustedHijriDate.hDay)} ${adjustedHijriDate.longMonthName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)}',
         'gregorianDate': gregorianDate.toIso8601String(),
         'daysLeft': gregorianDate.difference(DateTime.now()).inDays,
+        'arabic_name':event['arabic_name']
       });
     }
 
