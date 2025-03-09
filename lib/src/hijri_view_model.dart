@@ -276,8 +276,7 @@ class HijriViewModel {
       // Add the event with adjusted details
       eventsForYear.add({
         'name': event['name'],
-        'hijriDate':
-        ' ${adjustedHijriDate.dayWeName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hDay)} ${adjustedHijriDate.longMonthName} ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)} ',
+        'hijriDate':' ${adjustedHijriDate.dayWeName}  ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hDay)}  ${adjustedHijriDate.longMonthName}  ${DateFunctions.convertEnglishToHijriNumber(adjustedHijriDate.hYear)} ',
         'gregorianDate': gregorianDate.toIso8601String(),
         'daysLeft': gregorianDate.difference(DateTime.now()).inDays,
         'arabic_name':event['arabic_name']
