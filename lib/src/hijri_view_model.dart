@@ -18,7 +18,7 @@ class HijriViewModel {
     {'name': 'Eid-ul-Adha', 'hijriMonth': 12, 'hijriDay': 10,"arabic_name":"عيد الأضحى"},
     {'name': 'Aashoraa Day', 'hijriMonth': 1, 'hijriDay': 10,"arabic_name":"يوم عاشوراء"},
     {'name': 'Ramadan Start', 'hijriMonth': 9, 'hijriDay': 1,"arabic_name":"هلال رمضان"},
-    {'name': 'Lailat-ul-Qadr Start', 'hijriMonth': 9, 'hijriDay': 20,"arabic_name":"ليلة القدر"},
+    {'name': 'Lailat-ul-Qadr Start', 'hijriMonth': 9, 'hijriDay': 27,"arabic_name":"ليلة القدر"},
     {'name': 'Night of Mid Shaban', 'hijriMonth': 8, 'hijriDay': 15,"arabic_name":"ليلة النصف من شعبان"},
     {'name': 'Badr Battle', 'hijriMonth': 9, 'hijriDay': 17,"arabic_name":"معركة بدر"},
     {'name': 'Israa and Miraj', 'hijriMonth': 7, 'hijriDay': 27,"arabic_name":"الإسراء والمعراج"},
